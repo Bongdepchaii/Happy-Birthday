@@ -207,6 +207,10 @@
       color: #fcd34d;
       font-weight: 700;
     }
+    .modal-message .pink {
+      color: #f9a8a8;
+      font-weight: 700;
+    }
 
     .modal-btn {
       display: inline-flex;
@@ -250,7 +254,7 @@
     /* Big HB Title */
     .hb-title {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(2.2rem, 10vw, 5rem);
+      font-size: clamp(2.8rem, 10vw, 5rem);
       background: linear-gradient(135deg, #f9a8d4 0%, #fcd34d 40%, #f472b6 70%, #c084fc 100%);
       background-size: 300% 300%;
       -webkit-background-clip: text;
@@ -259,7 +263,7 @@
       animation: gradientShift 4s ease infinite, fadeDown 1s ease;
       text-align: center;
       filter: drop-shadow(0 2px 20px rgba(244, 114, 182, 0.45));
-      line-height: 1.2;
+      line-height: 2;
     }
 
     @keyframes gradientShift {
@@ -493,7 +497,7 @@
   <div class="stars-bg" id="stars-bg"></div>
 
   <!-- Welcome Modal (replaces alert) -->
-  <audio id="bg-music" src="Happy Birthday  Piano (arr. by Miranda Wong).mp3" loop></audio>
+  <audio id="bg-music" src="Happy Birthday  Piano (arr. by Miranda Wong).mp3" autoplay></audio>
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card">
       <span class="modal-emoji">🎂</span>
@@ -504,11 +508,10 @@
         Chúc <span class="highlight">Bẹt</span> của anh tuổi mới ngày càng <span class="highlight">học giỏi</span>,
         <span class="highlight">xinh đẹp</span>, không bao giờ được buồn mà lúc nào cũng phải <span
           class="highlight">cười thật tươi</span> nha! Mong em luôn <span class="highlight">ở gần bên anh</span> và sau
-        khi ra trường có một <span class="highlight">công việc thật tốt</span>. <span class="highlight">Lớp duu</span>
-        ❤️
+        khi ra trường có một <span class="highlight">công việc thật tốt!</span> 
       </p>
       <button class="modal-btn" id="modalCloseBtn">
-        Ấn zo đay để tiếp tục!
+        Ấn zo đay!
       </button>
     </div>
   </div>
@@ -530,14 +533,14 @@
         Anh mong em luôn <strong>học giỏi</strong>, ngày càng <strong>xinh đẹp</strong>, lúc nào cũng nở nụ cười tươi
         như hoaa.<br><br>
         Chúc em sau này ra trường sẽ có một <strong>công việc thật tốt</strong> và luôn ở <strong>gần bên anh</strong>
-        nhé! <strong>Lớp duu ❤️</strong>
+        nhaaa!
       </p>
     </div>
 
     <div class="divider"><span>✦ Còn nữa! ✦</span></div>
 
     <a class="cta-btn" href="firework.html">
-      Xem màn pháo hoa!
+      Ấn típp <3
     </a>
 
     <div class="emoji-bar">
@@ -550,7 +553,7 @@
   <script>
     // Stars
     const starsBg = document.getElementById('stars-bg');
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 500; i++) {
       const s = document.createElement('div');
       s.className = 'star';
       const size = Math.random() * 2.5 + 0.8;
