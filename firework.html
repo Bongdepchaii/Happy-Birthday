@@ -234,7 +234,18 @@
     </div>
   </div>
 
+  <audio id="bg-music" src="Happy Birthday  Piano (arr. by Miranda Wong).mp3" loop autoplay></audio>
   <script>
+    const bgMusic = document.getElementById('bg-music');
+    if (localStorage.getItem('bgMusicTime')) {
+      bgMusic.currentTime = parseFloat(localStorage.getItem('bgMusicTime'));
+    }
+    bgMusic.play().catch(e => console.log('Audio play failed:', e));
+
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('bgMusicTime', bgMusic.currentTime);
+    });
+
     // ── p5.js Fireworks ──
     // Adapted from Daniel Shiffman's Coding Train
     let fireworks = [];

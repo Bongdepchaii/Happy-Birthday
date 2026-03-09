@@ -493,6 +493,7 @@
   <div class="stars-bg" id="stars-bg"></div>
 
   <!-- Welcome Modal (replaces alert) -->
+  <audio id="bg-music" src="Happy Birthday  Piano (arr. by Miranda Wong).mp3" loop></audio>
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal-card">
       <span class="modal-emoji">🎂</span>
@@ -503,7 +504,8 @@
         Chúc <span class="highlight">Bẹt</span> của anh tuổi mới ngày càng <span class="highlight">học giỏi</span>,
         <span class="highlight">xinh đẹp</span>, không bao giờ được buồn mà lúc nào cũng phải <span
           class="highlight">cười thật tươi</span> nha! Mong em luôn <span class="highlight">ở gần bên anh</span> và sau
-        khi ra trường có một <span class="highlight">công việc thật tốt</span>. <span class="highlight">Lớp duu</span> ❤️
+        khi ra trường có một <span class="highlight">công việc thật tốt</span>. <span class="highlight">Lớp duu</span>
+        ❤️
       </p>
       <button class="modal-btn" id="modalCloseBtn">
         Ấn zo đay để tiếp tục!
@@ -525,7 +527,8 @@
     <div class="wish-card">
       <div class="wish-icon">💌</div>
       <p class="wish-text">
-        Anh mong em luôn <strong>học giỏi</strong>, ngày càng <strong>xinh đẹp</strong>, lúc nào cũng nở nụ cười tươi như hoaa.<br><br>
+        Anh mong em luôn <strong>học giỏi</strong>, ngày càng <strong>xinh đẹp</strong>, lúc nào cũng nở nụ cười tươi
+        như hoaa.<br><br>
         Chúc em sau này ra trường sẽ có một <strong>công việc thật tốt</strong> và luôn ở <strong>gần bên anh</strong>
         nhé! <strong>Lớp duu ❤️</strong>
       </p>
@@ -559,9 +562,15 @@
     const overlay = document.getElementById('modalOverlay');
     const pageContent = document.getElementById('pageContent');
     const closeBtn = document.getElementById('modalCloseBtn');
+    const bgMusic = document.getElementById('bg-music');
+
+    if (localStorage.getItem('bgMusicTime')) {
+      bgMusic.currentTime = parseFloat(localStorage.getItem('bgMusicTime'));
+    }
 
     function closeModal() {
       overlay.classList.add('hide');
+      bgMusic.play().catch(e => console.log('Audio play failed:', e));
       setTimeout(() => {
         overlay.style.display = 'none';
         pageContent.style.opacity = '1';
@@ -569,6 +578,10 @@
       }, 500);
     }
     closeBtn.addEventListener('click', closeModal);
+
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('bgMusicTime', bgMusic.currentTime);
+    });
 
     // ── Confetti ──
     const canvas = document.getElementById('confetti-canvas');
