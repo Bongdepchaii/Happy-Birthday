@@ -1,21 +1,354 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<html lang="vi">
 
 <head>
   <meta charset="utf-8">
-  <title>Happy Birthday to You!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Happy Birthday 🎂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <link rel="stylesheet" href="./style.css">
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #1a0533 0%, #3b0764 40%, #1e1b4b 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Floating stars bg */
+    .stars-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.4);
+      }
+    }
+
+    /* Floating hearts */
+    .heart-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.4rem;
+      animation: floatUp var(--dur, 8s) ease-in infinite var(--delay, 0s);
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.8;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .title-top {
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(1rem, 5vw, 1rem);
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: fadeDown 1s ease both;
+    }
+
+    .title-main {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.4rem, 10vw, 4.5rem);
+      background: linear-gradient(135deg, #f9a8d4, #fcd34d, #f472b6, #c084fc);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeDown 1s 0.2s ease both, gradientShift 4s ease infinite;
+      filter: drop-shadow(0 2px 24px rgba(244, 114, 182, 0.5));
+      line-height: 1.2;
+    }
+
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .subtitle {
+      font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+      color: rgba(255, 255, 255, 0.6);
+      animation: fadeDown 1s 0.4s ease both;
+    }
+
+    /* Gift Box */
+    .gift-wrapper {
+      cursor: pointer;
+      animation: fadeUp 1s 0.6s ease both;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gift-box {
+      width: clamp(140px, 40vw, 200px);
+      height: clamp(140px, 40vw, 200px);
+      position: relative;
+      animation: floatBox 3s ease-in-out infinite;
+      transition: transform 0.2s;
+      filter: drop-shadow(0 8px 32px rgba(244, 114, 182, 0.5));
+    }
+
+    .gift-box:active {
+      transform: scale(0.92);
+    }
+
+    @keyframes floatBox {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    .gift-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+
+    /* Pulse ring */
+    .pulse-ring {
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 3px solid rgba(244, 114, 182, 0.5);
+      animation: pulseRing 2s ease-out infinite;
+    }
+
+    .pulse-ring:nth-child(2) {
+      animation-delay: 0.7s;
+    }
+
+    .pulse-ring:nth-child(3) {
+      animation-delay: 1.4s;
+    }
+
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.85);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    .tap-hint {
+      font-size: clamp(0.85rem, 3vw, 1rem);
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .tap-hint .arrow {
+      animation: bounceArrow 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes bounceArrow {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      50% {
+        transform: translateX(6px);
+      }
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div>
-    <h1>Bấm hộp quà này đii!</h1>
-    <a href="hop-qua.html"><img src="birthday_gift.png" alt="birthday_gift"></a>
+  <div class="stars-bg" id="stars-bg"></div>
+  <div class="heart-container" id="heart-container"></div>
+
+  <div class="container">
+    <p class="title-top">🎉 Một ngày đặc biệt của Bẹt 🎉</p>
+    <h1 class="title-main">Happy Birthday!</h1>
+    <p class="subtitle">Nhấn vào hộp quà để mở bí mật ✨</p>
+
+    <a class="gift-wrapper" href="hop-qua.html" id="giftLink">
+      <div class="gift-box" id="giftBox">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <img src="birthday_gift.png" alt="Gift Box 🎁">
+      </div>
+      <p class="tap-hint">Bấm vào đây <span class="arrow">→</span></p>
+    </a>
   </div>
+
+  <script>
+    // Generate stars
+    const starsBg = document.getElementById('stars-bg');
+    for (let i = 0; i < 80; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 3 + 1;
+      s.style.cssText = `
+        width:${size}px; height:${size}px;
+        left:${Math.random() * 100}%; top:${Math.random() * 100}%;
+        --dur:${2 + Math.random() * 4}s; --delay:${Math.random() * 4}s;
+      `;
+      starsBg.appendChild(s);
+    }
+
+    // Generate floating hearts/emojis
+    const emojis = ['💖', '🎂', '🌸', '🥳', '💝'];
+    const hc = document.getElementById('heart-container');
+    for (let i = 0; i < 14; i++) {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.cssText = `
+        left:${Math.random() * 100}%;
+        --dur:${7 + Math.random() * 6}s;
+        --delay:${Math.random() * 8}s;
+        font-size:${1 + Math.random() * 1.5}rem;
+      `;
+      hc.appendChild(h);
+    }
+
+    // Tap effect
+    document.getElementById('giftLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      const box = document.getElementById('giftBox');
+      box.style.animation = 'none';
+      box.style.transform = 'scale(1.15) rotate(5deg)';
+      box.style.transition = 'transform 0.3s ease';
+      setTimeout(() => { window.location.href = 'hop-qua.html'; }, 400);
+    });
+  </script>
 </body>
 
 </html>

@@ -1,22 +1,646 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+<html lang="vi">
+
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="./style.css">
-  <title>Happy Birthday to You!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Happy Birthday 🎂 - 09-03-2006</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(160deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: white;
+    }
+
+    /* ── Confetti Canvas ── */
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Stars ── */
+    .stars-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+    }
+
+    /* ── Welcome Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .modal-overlay.hide {
+      animation: fadeOut 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+
+    .modal-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 28px;
+      padding: clamp(28px, 6vw, 48px) clamp(24px, 5vw, 40px);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 64px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.7) translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal-emoji {
+      font-size: clamp(3rem, 12vw, 5rem);
+      display: block;
+      margin-bottom: 12px;
+      animation: zoom 3s linear infinite;
+    }
+
+    @keyframes zoom {
+      0% {
+        transform: scale(1);
+        /* Kích thước gốc */
+      }
+
+      50% {
+        transform: scale(1.5);
+        /* Phóng to lên 1.5 lần */
+      }
+
+      100% {
+        transform: scale(1);
+        /* Quay về kích thước gốc */
+      }
+    }
+
+    .modal-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.6rem, 7vw, 2.8rem);
+      background: linear-gradient(135deg, #f9a8d4, #fcd34d, #c084fc);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      margin-bottom: 8px;
+    }
+
+    .modal-date {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.5rem, 7vw, 1.5rem);
+      background: linear-gradient(135deg, #f9a8d4, #fcb64d, #c084fc);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      margin-bottom: 8px;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .modal-name {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .modal-message {
+      font-size: clamp(0.88rem, 3.5vw, 1rem);
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.7;
+      margin-bottom: 28px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-message .highlight {
+      color: #fcd34d;
+      font-weight: 700;
+    }
+
+    .modal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #f472b6, #a855f7);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 24px rgba(244, 114, 182, 0.5);
+      text-decoration: none;
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 32px rgba(244, 114, 182, 0.65);
+    }
+
+    .modal-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    /* ── Main Content ── */
+    .page-content {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+      gap: 36px;
+    }
+
+    /* Big HB Title */
+    .hb-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.2rem, 10vw, 5rem);
+      background: linear-gradient(135deg, #f9a8d4 0%, #fcd34d 40%, #f472b6 70%, #c084fc 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 4s ease infinite, fadeDown 1s ease;
+      text-align: center;
+      filter: drop-shadow(0 2px 20px rgba(244, 114, 182, 0.45));
+      line-height: 1.2;
+    }
+
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .hb-name {
+      font-size: clamp(1.2rem, 5vw, 2rem);
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+      letter-spacing: 0.04em;
+      animation: fadeDown 1s 0.2s ease both;
+    }
+
+    .hb-name span {
+      color: #f9a8d4;
+    }
+
+    /* Cake */
+    .cake-wrapper {
+      animation: fadeDown 1s 0.4s ease both;
+      position: relative;
+    }
+
+    .cake-img {
+      width: clamp(200px, 55vw, 280px);
+      height: clamp(200px, 55vw, 280px);
+      object-fit: contain;
+      border-radius: 100%;
+      filter: drop-shadow(0 0 28px rgba(244, 114, 182, 0.5));
+      animation: cakeFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes cakeFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-1deg);
+      }
+
+      50% {
+        transform: translateY(-12px) rotate(1deg);
+      }
+    }
+
+    /* Wish Card */
+    .wish-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: clamp(24px, 5vw, 36px);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      animation: fadeUp 1s 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .wish-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .wish-text {
+      font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .wish-text strong {
+      color: #fcd34d;
+      font-weight: 800;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .divider span {
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* CTA Button */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: linear-gradient(135deg, #f472b6, #a855f7, #6366f1);
+      background-size: 200% auto;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-family: 'Nunito', sans-serif;
+      font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 32px rgba(168, 85, 247, 0.55);
+      animation: fadeUp 1s 0.8s ease both, btnGlow 2.5s ease-in-out infinite 1.8s;
+      letter-spacing: 0.02em;
+    }
+
+    .cta-btn:hover {
+      background-position: right center;
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 10px 40px rgba(168, 85, 247, 0.7);
+    }
+
+    .cta-btn:active {
+      transform: translateY(1px) scale(0.97);
+    }
+
+    @keyframes btnGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 32px rgba(168, 85, 247, 0.55);
+      }
+
+      50% {
+        box-shadow: 0 4px 48px rgba(244, 114, 182, 0.8);
+      }
+    }
+
+    .cta-icon {
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-6px)
+      }
+    }
+
+    /* Floating emojis bottom bar */
+    .emoji-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 1s 1s ease both;
+    }
+
+    .emoji-pill {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: clamp(0.8rem, 3vw, 0.9rem);
+      color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: pillFloat calc(3s + var(--i, 0) * 0.5s) ease-in-out infinite;
+    }
+
+    @keyframes pillFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+  </style>
 </head>
 
-<body style="background-color: white;" id="a">
-  <h1 style="color: pink;">HAPPY BIRTHDAY TO YOU</h1>
-  <img id="cake" src="cake.gif" alt="cake">
-  <h3 class="loi-chuc"></h3>
-  <div class="button">
-    <button id="button" onclick="location.href='firework.html'">Bấm tiếp vào đây đi!</button>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+  <div class="stars-bg" id="stars-bg"></div>
+
+  <!-- Welcome Modal (replaces alert) -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <span class="modal-emoji">🎂</span>
+      <h2 class="modal-title">Happy Birthday!</h2>
+      <h2 class="modal-date">09-03-2006</h2>
+      <p class="modal-name">Chúc mừng sinh nhật Bẹt của anh 🎉</p>
+      <p class="modal-message">
+        Chúc <span class="highlight">Bẹt</span> của anh tuổi mới ngày càng <span class="highlight">học giỏi</span>,
+        <span class="highlight">xinh đẹp</span>, không bao giờ được buồn mà lúc nào cũng phải <span
+          class="highlight">cười thật tươi</span> nha! Mong em luôn <span class="highlight">ở gần bên anh</span> và sau
+        khi ra trường có một <span class="highlight">công việc thật tốt</span>. <span class="highlight">Lớp duu</span> ❤️
+      </p>
+      <button class="modal-btn" id="modalCloseBtn">
+        Ấn zo đay để tiếp tục!
+      </button>
+    </div>
   </div>
-  <script>window.alert("Happy Birthday! Chúc Trang Hí, tuổi mới thêm nhiều hạnh phúc mới, niềm vui mới, và không nên thức đêm nhiều henn -,-");</script>
+
+  <!-- Main Content -->
+  <div class="page-content" id="pageContent" style="opacity:0; transition:opacity 0.5s ease;">
+    <div>
+      <h1 class="hb-title">Happy Birthday!</h1>
+      <p class="hb-name">🌸 <span>Trương Thị Mỹ Ly</span> 🌸</p>
+    </div>
+
+    <div class="cake-wrapper">
+      <img class="cake-img" src="cake.gif" alt="Birthday Cake 🎂">
+    </div>
+
+    <div class="wish-card">
+      <div class="wish-icon">💌</div>
+      <p class="wish-text">
+        Chúc <strong>Trương Thị Mỹ Ly (Bẹt)</strong> tuổi mới ngập tràn tình yêu và hạnh phúc!<br><br>
+        Anh mong em luôn <strong>học giỏi</strong>, ngày càng <strong>xinh đẹp</strong>, lúc nào cũng nở nụ cười tươi như hoaa.<br><br>
+        Chúc em sau này ra trường sẽ có một <strong>công việc thật tốt</strong> và luôn ở <strong>gần bên anh</strong>
+        nhé! <strong>Lớp duu ❤️</strong>
+      </p>
+    </div>
+
+    <div class="divider"><span>✦ Còn nữa! ✦</span></div>
+
+    <a class="cta-btn" href="firework.html">
+      Xem màn pháo hoa!
+    </a>
+
+    <div class="emoji-bar">
+      <span class="emoji-pill" style="--i:0">🎂 Sinh nhật vui vẻ</span>
+      <span class="emoji-pill" style="--i:1">💖 Hạnh phúc mãi</span>
+      <span class="emoji-pill" style="--i:2">🌟 Ước mơ thành hiện thực</span>
+    </div>
+  </div>
+
+  <script>
+    // Stars
+    const starsBg = document.getElementById('stars-bg');
+    for (let i = 0; i < 70; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      const size = Math.random() * 2.5 + 0.8;
+      s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;--dur:${2 + Math.random() * 4}s;--delay:${Math.random() * 5}s;`;
+      starsBg.appendChild(s);
+    }
+
+    // Modal close
+    const overlay = document.getElementById('modalOverlay');
+    const pageContent = document.getElementById('pageContent');
+    const closeBtn = document.getElementById('modalCloseBtn');
+
+    function closeModal() {
+      overlay.classList.add('hide');
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        pageContent.style.opacity = '1';
+        startConfetti();
+      }, 500);
+    }
+    closeBtn.addEventListener('click', closeModal);
+
+    // ── Confetti ──
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [];
+    let confettiActive = false;
+    let animId;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const colors = ['#f9a8d4', '#fcd34d', '#a78bfa', '#6ee7b7', '#93c5fd', '#f472b6', '#white'];
+
+    function createPiece() {
+      return {
+        x: Math.random() * canvas.width,
+        y: -10,
+        w: Math.random() * 10 + 5,
+        h: Math.random() * 6 + 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.15,
+        vy: Math.random() * 3 + 2,
+        vx: (Math.random() - 0.5) * 2,
+        life: 1,
+      };
+    }
+
+    function startConfetti() {
+      confettiActive = true;
+      for (let i = 0; i < 120; i++) {
+        const p = createPiece();
+        p.y = Math.random() * canvas.height * 0.5 - 10;
+        confettiPieces.push(p);
+      }
+      animateConfetti();
+      setTimeout(() => { confettiActive = false; }, 4000);
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (confettiActive && Math.random() < 0.4) confettiPieces.push(createPiece());
+
+      confettiPieces.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08;
+        p.angle += p.spin
+        p.life -= 0.004;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+
+      confettiPieces = confettiPieces.filter(p => p.life > 0 && p.y < canvas.height + 20);
+
+      if (confettiPieces.length > 0) {
+        animId = requestAnimationFrame(animateConfetti);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+  </script>
 </body>
 
 </html>
